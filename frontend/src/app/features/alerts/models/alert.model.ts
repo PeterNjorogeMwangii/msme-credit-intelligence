@@ -1,0 +1,4 @@
+export interface AlertItem{alert_id:string;customer_id:string;customer_name?:string;loan_id?:string;alert_type:string;severity:string;alert_title:string;alert_description:string;trigger_value?:number;threshold_value?:number;alert_status:string;assigned_to?:string;assignee_name?:string;detected_at:string;acknowledged_at?:string;resolved_at?:string;resolution_notes?:string;created_at?:string;}
+export interface AlertList{page:number;page_size:number;total_records:number;total_pages:number;records:AlertItem[];}
+export interface AlertSummary{total_alerts:number;open_alerts:number;acknowledged_alerts:number;under_investigation_alerts:number;resolved_alerts:number;dismissed_alerts:number;critical_open_alerts:number;high_open_alerts:number;unassigned_open_alerts:number;affected_customers:number;}
+export interface AlertFilters{page:number;pageSize:number;search?:string;status?:string;severity?:string;alertType?:string;unassigned?:boolean;}

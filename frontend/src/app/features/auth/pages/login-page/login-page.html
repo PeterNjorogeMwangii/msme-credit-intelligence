@@ -1,0 +1,31 @@
+<main class="login-shell">
+  <section class="login-brand">
+    <div class="mark"><span></span><span></span><span></span></div>
+    <p class="eyebrow">MSME CREDIT INTELLIGENCE</p>
+    <h1>Sharper credit decisions.<br />Healthier portfolios.</h1>
+    <p>Secure access to customer intelligence, credit assessments, early-warning alerts and portfolio monitoring.</p>
+    <div class="security"><lucide-icon name="shield-check" [size]="20" /> Protected banking workspace</div>
+  </section>
+
+  <section class="login-panel">
+    <form (ngSubmit)="submit()">
+      <div class="mobile-brand">MSME Credit Intelligence</div>
+      <p class="eyebrow">WELCOME BACK</p>
+      <h2>Sign in to your workspace</h2>
+      <p class="subtitle">Use your assigned portal credentials.</p>
+
+      <label>Username
+        <div class="field"><lucide-icon name="user" [size]="18" /><input name="username" [(ngModel)]="username" autocomplete="username" required /></div>
+      </label>
+      <label>Password
+        <div class="field"><lucide-icon name="lock" [size]="18" /><input name="password" [(ngModel)]="password" [type]="showPassword() ? 'text' : 'password'" autocomplete="current-password" required /><button type="button" class="reveal" (click)="showPassword.set(!showPassword())" aria-label="Show or hide password"><lucide-icon [name]="showPassword() ? 'eye-off' : 'eye'" [size]="18" /></button></div>
+      </label>
+
+      @if (error()) { <div class="error"><lucide-icon name="triangle-alert" [size]="17" />{{ error() }}</div> }
+      <button class="submit" type="submit" [disabled]="busy() || !username || !password">
+        @if (busy()) { <span class="spinner"></span> Signing in... } @else { Sign in securely <lucide-icon name="arrow-right" [size]="18" /> }
+      </button>
+      <small class="notice">Repeated failed attempts will lock the account. Contact a risk administrator for assistance.</small>
+    </form>
+  </section>
+</main>

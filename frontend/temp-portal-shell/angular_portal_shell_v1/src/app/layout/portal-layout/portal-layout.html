@@ -1,0 +1,8 @@
+<div class="portal-shell">
+  <app-sidebar [open]="sidebarOpen()" (navigate)="closeSidebar()" />
+  @if (sidebarOpen()) { <button class="backdrop" aria-label="Close menu" (click)="closeSidebar()"></button> }
+  <div class="portal-main">
+    <app-topbar (menuClick)="toggleSidebar()" />
+    <main class="portal-content"><router-outlet /></main>
+  </div>
+</div>

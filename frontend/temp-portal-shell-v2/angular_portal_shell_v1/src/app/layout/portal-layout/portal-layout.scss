@@ -1,0 +1,10 @@
+.portal-shell { display: flex; min-height: 100vh; background: var(--surface-page); }
+.portal-main { min-width: 0; flex: 1; margin-left: 260px; }
+.portal-content { padding: 28px; }
+.backdrop { display: none; }
+@media (max-width: 960px) {
+  .portal-main { margin-left: 0; }
+  .portal-content { padding: 20px; }
+  .backdrop { display: block; position: fixed; inset: 0; z-index: 39; border: 0; background: rgba(4, 20, 34, .55); }
+}
+@media (max-width: 600px) { .portal-content { padding: 16px; } }

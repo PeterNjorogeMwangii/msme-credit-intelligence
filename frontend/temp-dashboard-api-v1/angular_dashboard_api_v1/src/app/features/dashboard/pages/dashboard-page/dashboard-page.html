@@ -1,0 +1,28 @@
+<section class="page-heading">
+  <div><p>Portfolio overview</p><h1>Good morning, Credit Analyst</h1><span>Live portfolio health, assessments and emerging risks.</span></div>
+  <button><lucide-icon name="plus" [size]="17" />New assessment</button>
+</section>
+
+@if (loading()) {
+  <div class="state-card"><span class="spinner"></span><strong>Loading portfolio intelligence…</strong></div>
+} @else if (error()) {
+  <div class="state-card error"><lucide-icon name="triangle-alert" [size]="26" /><div><strong>Unable to load dashboard</strong><p>{{ error() }}</p></div><button class="retry" (click)="load()"><lucide-icon name="refresh-cw" [size]="15" />Retry</button></div>
+} @else if (data(); as dashboard) {
+  <section class="stats-grid">
+    <article class="stat"><div class="stat__icon blue"><lucide-icon name="file-check-2" [size]="21" /></div><div><span>Assessed applications</span><strong>{{ dashboard.portfolio.total_assessed_applications | number }}</strong><small>Latest model assessments</small></div></article>
+    <article class="stat"><div class="stat__icon green"><lucide-icon name="shield-check" [size]="21" /></div><div><span>Average credit score</span><strong>{{ dashboard.portfolio.average_credit_score | number:'1.0-0' }}</strong><small>Score range 300–850</small></div></article>
+    <article class="stat"><div class="stat__icon red"><lucide-icon name="triangle-alert" [size]="21" /></div><div><span>High-risk applications</span><strong>{{ dashboard.portfolio.high_risk_applications | number }}</strong><small>{{ dashboard.portfolio.average_probability_of_default | percent:'1.1-1' }} average PD</small></div></article>
+    <article class="stat"><div class="stat__icon amber"><lucide-icon name="bell" [size]="21" /></div><div><span>Active risk alerts</span><strong>{{ dashboard.alertSummary.open_alerts + dashboard.alertSummary.acknowledged_alerts + dashboard.alertSummary.under_investigation_alerts | number }}</strong><small>{{ dashboard.alertSummary.critical_open_alerts }} critical · {{ dashboard.alertSummary.unassigned_open_alerts }} unassigned</small></div></article>
+  </section>
+
+  <section class="content-grid">
+    <article class="panel risk"><header><div><h2>Portfolio risk distribution</h2><p>Assessed applications by risk band</p></div><a>View details</a></header>
+      <div class="risk__body"><div class="score"><strong>{{ dashboard.portfolio.total_assessed_applications | number }}</strong><span>Total assessments</span><small>{{ dashboard.portfolio.review_queue_count | number }} in review queue</small></div><ul>@for (band of riskBands(); track band.risk_band) {<li><div><span>{{ riskLabel(band.risk_band) }}</span><strong>{{ band.percentage | number:'1.1-1' }}%</strong></div><div class="bar"><i [class]="riskClass(band.risk_band)" [style.width.%]="band.percentage"></i></div><small>{{ band.application_count | number }} applications</small></li>}</ul></div>
+    </article>
+    <article class="panel alerts"><header><div><h2>Recent alerts</h2><p>Latest events requiring attention</p></div><a>View all</a></header>
+      @for (alert of dashboard.recentAlerts.records; track alert.alert_id) {<div class="alert"><b [class]="alert.severity.toLowerCase()">{{ alert.severity }}</b><div><strong>{{ alert.alert_title }}</strong><span>{{ alert.customer_name || alert.customer_id }} · {{ alert.detected_at | date:'dd MMM y' }}</span></div></div>} @empty {<p class="empty">No risk alerts were found.</p>}
+    </article>
+  </section>
+
+  <article class="panel table-panel"><header><div><h2>High-risk applications</h2><p>Cases requiring analyst attention</p></div><a>View assessment queue</a></header><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Application</th><th>Requested amount</th><th>Credit score</th><th>Probability of default</th><th>Risk band</th><th>Action</th></tr></thead><tbody>@for (item of dashboard.highRisk.items; track item.assessment_id) {<tr><td><strong>{{ item.business_name }}</strong><small>{{ item.customer_id }}</small></td><td class="id">{{ item.application_id }}</td><td>{{ item.requested_amount | currency:'KES':'code':'1.0-0' }}</td><td>{{ item.credit_score }}</td><td class="pd">{{ item.probability_of_default | percent:'1.1-1' }}</td><td><span class="badge" [class]="'badge '+riskClass(item.risk_band)">{{ riskLabel(item.risk_band) }}</span></td><td><a>Review</a></td></tr>} @empty {<tr><td colspan="7" class="empty">No high-risk applications were found.</td></tr>}</tbody></table></div></article>
+}

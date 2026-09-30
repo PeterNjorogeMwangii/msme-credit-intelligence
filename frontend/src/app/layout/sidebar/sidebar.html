@@ -1,0 +1,12 @@
+<aside class="sidebar" [class.sidebar--open]="open">
+  <div class="brand"><div class="brand__mark"><span></span><span></span><span></span></div><div><strong>MSME Credit</strong><small>Intelligence</small></div></div>
+  <nav class="nav" aria-label="Main navigation">
+    <span class="nav__eyebrow">Workspace</span>
+    @for (item of items; track item.route) {
+      @if (visible(item)) {
+        <a [routerLink]="item.route" routerLinkActive="active" (click)="navigate.emit()"><lucide-icon [name]="item.icon" [size]="19" [strokeWidth]="1.8" /><span>{{ item.label }}</span></a>
+      }
+    }
+  </nav>
+  <div class="sidebar__footer"><span class="status-dot"></span><div><strong>System operational</strong><small>Model v1.0 active</small></div></div>
+</aside>

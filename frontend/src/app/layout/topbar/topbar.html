@@ -1,0 +1,8 @@
+<header class="topbar">
+  <button class="icon-button menu" aria-label="Open navigation" (click)="menuClick.emit()"><lucide-icon name="menu" [size]="21" /></button>
+  <div class="title"><strong>MSME Credit Intelligence</strong><span>Credit Risk Management Portal</span></div>
+  <label class="search"><lucide-icon name="search" [size]="18" /><input type="search" placeholder="Search customers, applications or loans..." /></label>
+  <button class="icon-button notification" type="button" routerLink="/alerts" aria-label="Open notifications" title="Alerts & Watchlist"><lucide-icon name="bell" [size]="20" /><span>3</span></button>
+  <div class="profile"><span class="avatar">{{ initials() }}</span><span class="profile__text"><strong>{{ auth.user()?.full_name }}</strong><small>{{ roleLabel() }}</small></span></div>
+  <button class="icon-button" type="button" aria-label="Sign out" title="Sign out" (click)="auth.logout()"><lucide-icon name="log-out" [size]="19" /></button>
+</header>
